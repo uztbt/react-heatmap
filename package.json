@@ -1,0 +1,27 @@
+{
+  "name": "tbt-react-heatmap",
+  "version": "0.1.0",
+  "description": "Shows a 2D array in varying colors from green to red",
+  "main": "index.js",
+  "types": "./lib/heatmap.d.ts",
+  "scripts": {
+    "build": "rm ./lib/* && tsc",
+    "prepare": "npm run build"
+  },
+  "author": "Yuji Tabata",
+  "license": "MIT",
+  "dependencies": {
+    "underscore": "^1.9.1"
+  },
+  "devDependencies": {
+    "@types/react": "^16.7.8",
+    "@types/react-dom": "^16.0.11",
+    "@types/underscore": "^1.8.9",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uztbt/tbt-react-heatmap.git"
+  }
+}

@@ -10,9 +10,13 @@
   },
   "author": "Yuji Tabata",
   "license": "MIT",
-  "dependencies": {
-    "underscore": "^1.9.1"
-  },
+  "keywords": [
+    "react",
+    "heatmap",
+    "canvas",
+    "typescript"
+  ],
+  "dependencies": {},
   "devDependencies": {
     "@types/react": "^16.7.8",
     "@types/react-dom": "^16.0.11",

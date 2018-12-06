@@ -1,16 +1,11 @@
 import * as React from 'react';
-import * as _ from "underscore";
-
-type ValueArray = number[][] // 0 - 255
 
 export interface HeatmapProps{
-    className: string,
-    rows: number,
-    cols: number,
+    className?: string,
     height: number,
     width: number,
     style: {opacity?: number},
-    heatmapArray: ValueArray
+    heatmapArray: number[][]
 }
 
 export function createInitialHeatmapData(rows:number, cols:number){
@@ -26,44 +21,68 @@ export function createInitialHeatmapData(rows:number, cols:number){
 export class Heatmap extends React.Component<HeatmapProps, {}>{
     private canvasRef = React.createRef<HTMLCanvasElement>()
     private ctx: CanvasRenderingContext2D
+    private rows: number
+    private cols: number
     private cellHeight: number
     private cellWidth: number
-
+    
     constructor(props:HeatmapProps){
         super(props)
-        this.cellHeight = props.height / props.rows
-        this.cellWidth  = props.width  / props.cols
+        this.setSize(props)
     }
 
-    erase = ():void => 
-        this.ctx.clearRect(0, 0, this.props.width, this.props.height)
-    componentDidMount(){
+    /* ******************* */
+    /* Component functions */
+    /* ******************* */
+    
+    componentDidMount = ():void => {
         this.ctx = this.getContext()
         if(this.props.heatmapArray){
-            this.ctx.clearRect(0, 0, this.props.width, this.props.height)
             this.draw()
         }
     }
 
-    componentDidUpdate(prevProps:HeatmapProps){
+    componentDidUpdate = (prevProps:HeatmapProps):void => {
         if(
             typeof prevProps === "object" &&
             typeof this.props === "object" &&
-            !_.isEqual(prevProps, this.props)
+            JSON.stringify(prevProps) !== JSON.stringify(this.props)
+            // !_.isEqual(prevProps, this.props)
             ){
             this.erase()
+            this.setSize(this.props)
             this.draw()
         }
     }
 
-    getContext():CanvasRenderingContext2D{
-        const canvas = this.canvasRef.current
-        if(canvas){
-            const ctx = canvas.getContext('2d')
-            if(ctx)
-                return ctx
-        }
-        throw new Error("Reference to canvas is null")
+    render = (): JSX.Element =>
+        <canvas
+            ref={this.canvasRef} className={this.props.className} height={this.props.height} width={this.props.width} style={this.props.style}
+        />
+
+    /* *********** */
+    /* Draw family */
+    /* *********** */
+
+    draw = ():void => {
+        const max = this.getMax();
+        for(let i=0; i < this.rows; i++)
+            for(let j=0; j < this.cols; j++){
+                this.drawCell(j*this.cellWidth, i*this.cellHeight, this.props.heatmapArray[i][j]/max*255)
+            }
+    }
+
+    drawCell = (x:number, y:number, v:number):void =>{
+        this.setColor(v)
+        this.ctx.fillRect(x, y, this.cellWidth, this.cellHeight)
+    }
+
+    getMax = ():number => {
+        let max = 0
+        for(let i=0; i < this.rows; i++)
+            for(let j=0; j < this.cols; j++)
+                max = max > this.props.heatmapArray[i][j] ? max : this.props.heatmapArray[i][j]
+        return max;
     }
 
     setColor (v:number):void {
@@ -74,32 +93,27 @@ export class Heatmap extends React.Component<HeatmapProps, {}>{
             this.ctx.fillStyle = this.ctx.strokeStyle = `rgba(255, ${255-2*(v-128)}, 0, ${alphaMax*v/256})`
     }
 
-    drawCell = (x:number, y:number, v:number):void =>{
-        this.setColor(v)
-        this.ctx.strokeRect(x, y, this.cellWidth, this.cellHeight)
+    /* ****** */
+    /* Others */
+    /* ****** */
+
+    getContext = ():CanvasRenderingContext2D =>{
+        const canvas = this.canvasRef.current
+        if(canvas){
+            const ctx = canvas.getContext('2d')
+            if(ctx)
+                return ctx
+        }
+        throw new Error("Reference to canvas is null")
     }
 
-    getMax = ():number => {
-        let max = 0
-        for(let i=0; i < this.props.rows; i++)
-            for(let j=0; j < this.props.cols; j++)
-                max = max > this.props.heatmapArray[i][j] ? max : this.props.heatmapArray[i][j]
-        return max;
-    }
+    erase = ():void => 
+        this.ctx.clearRect(0, 0, this.props.width, this.props.height)
 
-    draw = ():void => {
-        const max = this.getMax();
-        for(let i=0; i < this.props.rows; i++)
-            for(let j=0; j < this.props.cols; j++){
-                this.drawCell(i*this.cellWidth, j*this.cellHeight, this.props.heatmapArray[i][j]/max*255)
-            }
-    }
-
-    render(){
-        return(
-        <canvas
-            ref={this.canvasRef} className={this.props.className} height={this.props.height} width={this.props.width} style={this.props.style}
-        />
-        )
+    setSize = (props: HeatmapProps):void => {
+        this.rows = props.heatmapArray.length
+        this.cols = props.heatmapArray[0].length
+        this.cellHeight = props.height / this.rows
+        this.cellWidth  = props.width  / this.cols
     }
 }

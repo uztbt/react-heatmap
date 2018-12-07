@@ -1,7 +1,6 @@
 tbt-react-heatmap
 =================
-An HTML5 canvas based heatmap react component.
-
+A heatmap react component with a background image, if you want 😎.
 __Show your heatmap just by a few lines!__
 
 # How it will look like
@@ -9,8 +8,7 @@ __Show your heatmap just by a few lines!__
 ![4x3 heatmap sample](./sample-images/4x3-heatmap-sample.png)
 
 ## 4x3 heatmap with background image
-![4x3 heatmap sample with bg](./sample-images/dancer-sample.png)
-Note that the overlay is achieved by another CSS file, using the class name fed to the Heatmap component.
+![4x3 heatmap sample with bg](./sample-images/4x3-dancer-sample.png)
 
 # How to use
 ```js
@@ -21,15 +19,16 @@ const twelve = [
     [40, 110.5, 170],
     [80.5, 100.23, 123.45],
     [250.23, 50.4, 245],
-]
+];
 
 const render = () =>
     <h.Heatmap
-            className="coveringCanvas"
-            height={244}
-            width={244}
-            style={{opacity: 1.0}}
-            heatmapArray={twelve}
+        id="coveringCanvas"
+        height={244}
+        width={244}
+        opacity={1.0}
+        heatmapArray={twelve}
+        src="sample-images/dancer-sample.png"
     />
 ```
 

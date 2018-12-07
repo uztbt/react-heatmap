@@ -1,10 +1,11 @@
 import * as React from 'react';
 
 export interface HeatmapProps{
-    className?: string,
+    id?: string,
+    src?: string,
     height: number,
     width: number,
-    style: {opacity?: number},
+    opacity?: number,
     heatmapArray: number[][]
 }
 
@@ -56,9 +57,28 @@ export class Heatmap extends React.Component<HeatmapProps, {}>{
     }
 
     render = (): JSX.Element =>
-        <canvas
-            ref={this.canvasRef} className={this.props.className} height={this.props.height} width={this.props.width} style={this.props.style}
-        />
+        <div
+            id={`outside-wrapper ${this.props.id}`}
+            style={{width: this.props.width, height: this.props.height}}
+        >
+            <div
+                id={`inside-wrapper ${this.props.id}`}
+                style={{width: "100%", height: "100%", position: "relative"}}
+            >
+                <img
+                    id={`image ${this.props.id}`}
+                    src={this.props.src}
+                    style={{width: "100%", height: "100%", position: "absolute", top: "0px", left: "0px"}}
+                />
+                <canvas
+                    ref={this.canvasRef}
+                    id={`canvas ${this.props.id}`}
+                    height={this.props.height}
+                    width={this.props.width}
+                    style={{width: "100%", height: "100%", position: "absolute", top: "0px", left: "0px", opacity: this.props.opacity}}
+                />
+            </div>
+        </div>
 
     /* *********** */
     /* Draw family */
@@ -67,9 +87,8 @@ export class Heatmap extends React.Component<HeatmapProps, {}>{
     draw = ():void => {
         const max = this.getMax();
         for(let i=0; i < this.rows; i++)
-            for(let j=0; j < this.cols; j++){
+            for(let j=0; j < this.cols; j++)
                 this.drawCell(j*this.cellWidth, i*this.cellHeight, this.props.heatmapArray[i][j]/max*255)
-            }
     }
 
     drawCell = (x:number, y:number, v:number):void =>{
@@ -86,7 +105,7 @@ export class Heatmap extends React.Component<HeatmapProps, {}>{
     }
 
     setColor (v:number):void {
-        const alphaMax = this.props.style.opacity ? this.props.style.opacity : 0.8
+        const alphaMax = this.props.opacity ? this.props.opacity : 0.8
         if(0 <= v && v < 128)
             this.ctx.fillStyle = this.ctx.strokeStyle = `rgba(${2*v}, 255, 0, ${alphaMax*v/256})`
         if(128 <= v && v < 256)

@@ -12,7 +12,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var React = require("react");
 function createInitialHeatmapData(rows, cols) {
     var array = [];
@@ -24,11 +24,14 @@ function createInitialHeatmapData(rows, cols) {
     return array;
 }
 exports.createInitialHeatmapData = createInitialHeatmapData;
-var Heatmap = (function (_super) {
+var Heatmap = /** @class */ (function (_super) {
     __extends(Heatmap, _super);
     function Heatmap(props) {
         var _this = _super.call(this, props) || this;
         _this.canvasRef = React.createRef();
+        /* ******************* */
+        /* Component functions */
+        /* ******************* */
         _this.componentDidMount = function () {
             _this.ctx = _this.getContext();
             if (_this.props.heatmapArray) {
@@ -38,7 +41,9 @@ var Heatmap = (function (_super) {
         _this.componentDidUpdate = function (prevProps) {
             if (typeof prevProps === "object" &&
                 typeof _this.props === "object" &&
-                JSON.stringify(prevProps) !== JSON.stringify(_this.props)) {
+                JSON.stringify(prevProps) !== JSON.stringify(_this.props)
+            // !_.isEqual(prevProps, this.props)
+            ) {
                 _this.erase();
                 _this.setSize(_this.props);
                 _this.draw();
@@ -50,6 +55,9 @@ var Heatmap = (function (_super) {
                     React.createElement("img", { id: "image " + _this.props.id, src: _this.props.src, style: { width: "100%", height: "100%", position: "absolute", top: "0px", left: "0px" } }),
                     React.createElement("canvas", { ref: _this.canvasRef, id: "canvas " + _this.props.id, height: _this.props.height, width: _this.props.width, style: { width: "100%", height: "100%", position: "absolute", top: "0px", left: "0px", opacity: _this.props.opacity } })));
         };
+        /* *********** */
+        /* Draw family */
+        /* *********** */
         _this.draw = function () {
             var max = _this.getMax();
             for (var i = 0; i < _this.rows; i++)
@@ -67,6 +75,9 @@ var Heatmap = (function (_super) {
                     max = max > _this.props.heatmapArray[i][j] ? max : _this.props.heatmapArray[i][j];
             return max;
         };
+        /* ****** */
+        /* Others */
+        /* ****** */
         _this.getContext = function () {
             var canvas = _this.canvasRef.current;
             if (canvas) {
@@ -98,4 +109,3 @@ var Heatmap = (function (_super) {
     return Heatmap;
 }(React.Component));
 exports.Heatmap = Heatmap;
-//# sourceMappingURL=heatmap.js.map

@@ -1,12 +1,13 @@
 {
   "name": "tbt-react-heatmap",
-  "version": "0.2.0",
-  "description": "Shows a 2D array in varying colors from green to red",
+  "version": "0.3.0",
+  "description": "Show a 2D array in varying colors from green to red",
   "main": "index.js",
   "types": "./lib/heatmap.d.ts",
   "scripts": {
     "build": "rm ./lib/* && tsc",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "sample": "t"
   },
   "author": "Yuji Tabata",
   "license": "MIT",

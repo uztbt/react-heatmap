@@ -1,11 +1,10 @@
 import * as React from 'react';
 export interface HeatmapProps {
-    className?: string;
+    id?: string;
+    src?: string;
     height: number;
     width: number;
-    style: {
-        opacity?: number;
-    };
+    opacity?: number;
     heatmapArray: number[][];
 }
 export declare function createInitialHeatmapData(rows: number, cols: number): number[][];

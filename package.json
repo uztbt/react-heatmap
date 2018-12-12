@@ -1,7 +1,7 @@
 {
   "name": "tbt-react-heatmap",
-  "version": "0.3.0",
-  "description": "Show a 2D array in varying colors from green to red",
+  "version": "0.3.1",
+  "description": "Heatmap component showing data in varying colors from green to red",
   "main": "index.js",
   "types": "./lib/heatmap.d.ts",
   "scripts": {
@@ -14,6 +14,8 @@
   "keywords": [
     "react",
     "heatmap",
+    "visualization",
+    "overlay",
     "canvas",
     "typescript"
   ],

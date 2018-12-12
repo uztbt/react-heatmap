@@ -1,7 +1,8 @@
 tbt-react-heatmap
 =================
-A heatmap react component with a background image, if you want 😎.
 __Show your heatmap just by a few lines!__
+
+A heatmap react component with a background image, if you want 😎.
 
 # How it will look like
 ## 4x3 heatmap
@@ -12,7 +13,7 @@ __Show your heatmap just by a few lines!__
 
 # How to use
 ```js
-import * as h from "tbt-react-heatmap";
+import { Heatmap } from "tbt-react-heatmap";
 
 const twelve = [
     [30, 70, 200],
@@ -22,11 +23,10 @@ const twelve = [
 ];
 
 const render = () =>
-    <h.Heatmap
-        id="coveringCanvas"
+    <Heatmap
         height={244}
         width={244}
-        opacity={1.0}
+        opacity={0.7}
         heatmapArray={twelve}
         src="sample-images/dancer-sample.png"
     />

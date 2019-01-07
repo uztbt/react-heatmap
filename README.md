@@ -1,4 +1,4 @@
-tbt-react-heatmap
+@uztbt/react-heatmap
 =================
 __Show your heatmap just by a few lines!__
 
@@ -13,7 +13,7 @@ A heatmap react component with a background image, if you want 😎.
 
 # How to use
 ```js
-import { Heatmap } from "tbt-react-heatmap";
+import { Heatmap } from "@uztbt/react-heatmap";
 
 const twelve = [
     [30, 70, 200],
